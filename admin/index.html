@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>彖天科技员工推广系统</title>
+        <meta content="彖天" name="keywords" />
+        <meta content="彖天推广" name="description" />
+		    <!--引入头文件-->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+		<!--<script type="text/javascript" src="/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="/js/bootstrap.js" ></script>-->
+	</head>
+	<body style="padding:50px;background-color:#ccc">
+		<div id="app" class="container" style="background-color:#fff;padding:50px;">
+			<div class="text-center"><h2>彖天科技员工推广系统</h2></div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="text-center"><h3>会员登陆</h3></div>
+				
+					    <div class="form-group">
+						    <label for="username">用户名</label>
+						    <input type="text" class="form-control" placeholder="用户名"  name="username"  v-model = "json.username">
+						  </div>
+					
+					    <div class="form-group">
+						    <label for="password">密码</label>
+						    <input type="password" class="form-control" placeholder="密码"  name="password" v-model = "json.password" >
+						  </div>
+					
+					   <button @click = "m_save" class="btn btn-default">登陆</button>
+					
+				</div>
+				<div class="col-md-6">
+						<div class="text-center"><h3>会员注册</h3></div>
+				
+				  <div class="form-group">
+				    <label for="username">用户名</label>
+				    <input type="text" class="form-control" placeholder="用户名"  name="username"  v-model = "reg.name">
+				  </div>
+				  <div class="form-group">
+				    <label for="userphone">手机</label>
+				    <input type="text" class="form-control" name="userphone" placeholder="用户手机"  v-model = "reg.tel" >
+				  </div>
+				  <div class="form-group">
+				    <label for="password">密码</label>
+				    <input type="password" class="form-control" placeholder="密码"  name="password" v-model = "reg.pass" >
+				  </div>
+				  <button @click = "m_register" class="btn btn-default">注册</button>
+			
+				</div>
+				
+			</div>
+		
+		</div>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/zepto.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript">
+		$(function(){
+			
+			//获取浏览器地址
+			function GetRequest() { 
+				var url = location.search; //获取url中"?"符后的字串 
+				var theRequest = new Object(); 
+				if (url.indexOf("?") != -1) { 
+				var str = url.substr(1); 
+				strs = str.split("&"); 
+				for(var i = 0; i < strs.length; i ++) { 
+				theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+				} 
+				} 
+				return theRequest; 
+				} 
+				var Request = new Object(); 
+				Request = GetRequest();
+				window.tuiid = Request.tuiid;
+		
+				
+			
+			function _m_get_json(){
+				return {
+					username : "",
+					password : "",	
+				}
+			}
+			
+			var _vm = new Vue({
+				el : "#app",
+				data : {
+					json : _m_get_json(),
+					reg : {
+						name : '',
+						tle : '',
+						pass : ''
+					}
+				},
+				methods : {
+					m_save : function(){
+						//通过ajax提交注册数据
+						console.log(this.json)
+						$.post("http://web.myweb.com/app/admin/login.php",
+						{
+							"do": "login", 
+							"username": this.json.username ,
+							"pass" : this.json.password 
+						},
+					    function(data){
+					     console.log(data); //  2pm
+					     if(data.state == 200){
+					     	window.location.href="dash.html";
+					     }
+					   }, "json");
+						
+					},
+					m_register : function(){
+						//通过ajax提交注册数据
+						console.log(this.json)
+						$.post("http://web.myweb.com/app/admin/login.php", 
+						{
+							"do": "register", 
+							"name": this.reg.name , 
+							"tel": this.reg.tel, 
+							"pass" : this.reg.pass,
+							"tuiid" : tuiid
+						},
+					    function(data){
+					    	if(data.state == 200){
+					    		alert("注册成功，请登陆");
+					    	}
+					     console.log(data); //  2pm
+					   }, "json");
+					}
+				}
+			}) ;
+		});
+			
+		</script>
+	</body>
+</html>

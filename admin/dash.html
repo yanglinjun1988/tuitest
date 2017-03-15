@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/bootstrap.css" rel="stylesheet" />
+	</head>
+
+	<body>
+	<div class="container" id="app_dash">
+		<!--header-->
+		<div class="row" style="margin-top: 25px;">
+			<div class="col-xs-12 col-sm-3 col-lg-2"></div>
+			<div class="col-xs-12 col-sm-9 col-lg-10">
+				<div class="head">
+					{{setting.tuiname}}欢迎来到推广平台。{{setting.tuitel}}
+				</div>
+			</div>
+		</div>
+		<!--/header-->
+		<div class="row">
+			<!--left-->
+			<div class="col-xs-12 col-sm-3 col-lg-2">
+				<div class="panel panel-default">
+					<div class="panel-heading">推广</div>
+					<ul class="list-group collapse in" v-for = "cate in vategory">
+						<li class="list-group-item" onclick="window.location.href = '{{cate.href}}'">{{cate.catename}}</li>
+						
+					</ul>
+				</div>
+			</div>
+			<!--/left-->
+			<!--content-->
+			<div class="col-xs-12 col-sm-9 col-lg-10">
+				<div class="panel panel-default panel-col">
+					<div class="panel-heading">
+						<h3 class="panel-title">推广术语，广告语，软文（复制后粘贴到QQ群、QQ、微博、博客、论坛、或者通过邮件，均可推广！）</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-12">
+							<textarea name="" rows="4" cols="" style="width: 100%;">一款很牛的财经分析软件  {{setting.href}}?tuiid={{setting.tuiid}}</textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="">
+				<button class="btn btn-default" @click = "m_get">点我</button>
+			</div>
+		</div>
+	</div>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/zepto.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		$(function(){
+			//获取用户信息
+			var str = window.location.href;
+			e_href = str.substr(0,str.lastIndexOf("/")+1);
+			$.post("http://web.myweb.com/app/admin/login.php",
+					{
+						"do": "settion"
+					},
+				    function(data){//回调函数
+				     console.log(data); //  2pm
+				     if(data.state == 200){
+				     var _vm = new Vue({
+						el : "#app_dash",
+						data : {
+							vategory : [
+								{catename : "推广术语","href": "demo1.html"},
+								{catename : "我推广的会员","href": "demo1.html"},
+								{catename : "我推广的会员","href": "demo1.html"}
+							],
+							setting : {
+								href : e_href,
+								tuiid : data.data.userid,
+								tuiname : data.data.username,
+								tuitel : data.data.usertel
+							}
+						},
+						methods : {
+							m_get : function(){
+								console.log(this.setting);
+								
+								}
+							}
+						});
+//					     	_vm.setting.tuiid = data.data.userid;
+	
+				     }
+				     if(data.state == 202){
+				     	window.location.href="index.html";
+				     }
+				   }, "json");
+									
+		});
+	</script>
+	</body>
+
+</html>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script type="text/javascript">  
+		// H5 plus事件处理  
+		function plusReady(){  
+		alert( "uuid: "+plus.device.uuid );  
+		}  
+		if(window.plus){  
+		plusReady();  
+		alert("111");
+		console.log(111);
+		}else{  
+			console.log(122);
+			alert("122");
+		document.addEventListener("plusready",plusReady,false);  
+		}  
+		</script>  
+		<div> 你好朋友</div>
+	</body>
+
+</html>
